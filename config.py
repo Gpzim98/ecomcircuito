@@ -1,6 +1,6 @@
-DB_NAME = "db.db"
-ARCHIVE_FILES = "D:\\Personal\\monitor\\processed_files"
-ARCHIVE_FILED_FILES = "D:\\Personal\\monitor\\failed_files"
+DB_NAME = "setme"
+ARCHIVE_FILES = "setme"
+ARCHIVE_FILED_FILES = "setme"
 
 try:
     from local_settings import *
