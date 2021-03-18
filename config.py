@@ -3,6 +3,6 @@ ARQUIVE_FILES = "D:\\Personal\\monitor\\processed_files"
 ARQUIVE_FILED_FILES = "D:\\Personal\\monitor\\failed_files"
 
 try:
-    from configlocal import *
+    from local_settings import *
 except Exception as e:
     pass
