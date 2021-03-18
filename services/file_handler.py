@@ -18,5 +18,5 @@ def move_file(path_from, path_to):
 
         print("File move successfully from %s to %s" % (path_from, path_to))
     except Exception as e:
-        print("Filed to move file from %s to %s" % path_from, path_to)
+        print("Filed to move file from %s to %s" % (path_from, path_to))
         # TODO: SEND EMAIL FAILED TO MOVE FILE
