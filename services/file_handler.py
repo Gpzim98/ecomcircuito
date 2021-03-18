@@ -13,7 +13,7 @@ def move_file(path_from, path_to):
 
         file_base_name = ntpath.basename(path_from)
         file_name, file_extension = os.path.splitext(file_base_name)
-        final_path = ntpath.join(path_to, final_file_name % (file_name, date_time, file_extension))
+        final_path = os.path.join(path_to, final_file_name % (file_name, date_time, file_extension))
         shutil.move(path_from, final_path)
 
         print("File move successfully from %s to %s" % (path_from, path_to))
