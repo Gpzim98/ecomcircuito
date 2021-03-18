@@ -1,2 +1,9 @@
 venv
 files
+.idea
+.vscode
+__pycache__
+failed_files
+processed_files
+db.db
+*.db-journal

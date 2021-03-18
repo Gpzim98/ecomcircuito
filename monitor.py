@@ -1,6 +1,11 @@
 import time
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
+from services.validator import Validator
+from services.parser import Parser
+from data.database import DataBase
+from config import ARQUIVE_FILED_FILES, ARQUIVE_FILES
+from services.file_handler import move_file
 
 
 class Watcher:
@@ -21,9 +26,36 @@ class Watcher:
             print("Error")
 
         self.observer.join()
-
+    
 
 class Handler(FileSystemEventHandler):
+    @staticmethod
+    def process_new_file(event):
+        print("Initiating processing of file " + event.src_path)
+        try:
+            validator = Validator(event.src_path)
+            if validator.is_valid():
+                parser = Parser(event.src_path)
+                data = parser.parse()
+            else:
+                move_file(event.src_path, ARQUIVE_FILED_FILES)
+                print("File %s is not valid" % event.src_path)
+                return
+
+            database = DataBase()
+            database.store_product(data)
+
+            # post to presta
+            # delete file
+            # log
+            # fail manda email
+            print("Received created event - %s." % event.src_path)
+            move_file(event.src_path, ARQUIVE_FILES)
+        except Exception as e:
+            print("Failed to process file - %s." % event.src_path)
+            print(str(e))
+            move_file(event.src_path, ARQUIVE_FILED_FILES)
+            # TODO: SEND MAIL EXCEPTION HAPPENED
 
     @staticmethod
     def on_any_event(event):
@@ -31,15 +63,10 @@ class Handler(FileSystemEventHandler):
             return None
 
         elif event.event_type == 'created':
-            # validate file
-            # parse file into class
-            # store into sqlite3
-            # post to presta
-            print("Received created event - %s." % event.src_path)
+            Handler.process_new_file(event)
 
         elif event.event_type == 'modified':
-            # Taken any action here when a file is modified.
-            print ("Received modified event - %s." % event.src_path)
+            print("Received modified event - %s." % event.src_path)
 
 
 if __name__ == '__main__':
