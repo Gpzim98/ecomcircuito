@@ -4,19 +4,17 @@ from watchdog.events import FileSystemEventHandler
 from services.validator import Validator
 from services.parser import Parser
 from data.database import DataBase
-from config import ARQUIVE_FILED_FILES, ARQUIVE_FILES
+from config import ARCHIVE_FILED_FILES, ARCHIVE_FILES, DIRECTORY_TO_WATCH
 from services.file_handler import move_file
 
 
-class Watcher:
-    DIRECTORY_TO_WATCH = "files"
-
+class Watcher(object):
     def __init__(self):
         self.observer = Observer()
 
     def run(self):
         event_handler = Handler()
-        self.observer.schedule(event_handler, self.DIRECTORY_TO_WATCH, recursive=True)
+        self.observer.schedule(event_handler, DIRECTORY_TO_WATCH, recursive=True)
         self.observer.start()
         try:
             while True:
@@ -38,7 +36,7 @@ class Handler(FileSystemEventHandler):
                 parser = Parser(event.src_path)
                 data = parser.parse()
             else:
-                move_file(event.src_path, ARQUIVE_FILED_FILES)
+                move_file(event.src_path, ARCHIVE_FILED_FILES)
                 print("File %s is not valid" % event.src_path)
                 return
 
@@ -50,11 +48,11 @@ class Handler(FileSystemEventHandler):
             # log
             # fail manda email
             print("Received created event - %s." % event.src_path)
-            move_file(event.src_path, ARQUIVE_FILES)
+            move_file(event.src_path, ARCHIVE_FILES)
         except Exception as e:
             print("Failed to process file - %s." % event.src_path)
             print(str(e))
-            move_file(event.src_path, ARQUIVE_FILED_FILES)
+            move_file(event.src_path, ARCHIVE_FILED_FILES)
             # TODO: SEND MAIL EXCEPTION HAPPENED
 
     @staticmethod
