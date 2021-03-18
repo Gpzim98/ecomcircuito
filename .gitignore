@@ -7,4 +7,4 @@ failed_files
 processed_files
 db.db
 *.db-journal
-local_config.py
+configlocal.py
