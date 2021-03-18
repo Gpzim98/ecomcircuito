@@ -29,6 +29,7 @@ class Watcher(object):
 class Handler(FileSystemEventHandler):
     @staticmethod
     def process_new_file(event):
+        time.sleep(1)
         print("Initiating processing of file " + event.src_path)
         try:
             validator = Validator(event.src_path)
