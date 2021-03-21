@@ -4,6 +4,7 @@ from watchdog.events import FileSystemEventHandler
 from services.validator import Validator
 from services.parser import Parser
 from data.database import DataBase
+from data.prestashop import PrestaShopDB
 from config import ARCHIVE_FILED_FILES, ARCHIVE_FILES, DIRECTORY_TO_WATCH
 from services.file_handler import move_file
 
@@ -43,6 +44,9 @@ class Handler(FileSystemEventHandler):
 
             database = DataBase()
             database.store_product(data)
+
+            presta_db = PrestaShopDB()
+            presta_db.update_quantity(data.Reference, data.Stock)
 
             # post to presta
             # delete file

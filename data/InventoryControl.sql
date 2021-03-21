@@ -1,5 +1,5 @@
 CREATE TABLE "InventoryControl" (
-	"Id"	INTEGER,
+	"Reference"	INTEGER,
 	"Stock"	REAL,
 	"DateTime"	TEXT
 );

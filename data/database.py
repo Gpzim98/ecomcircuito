@@ -23,7 +23,7 @@ class DataBase(object):
 
     def store_product(self, project: Product):
         try:
-            sql = "INSERT INTO InventoryControl(Id, Stock, DateTime) VALUES(?,?,?)"
+            sql = "INSERT INTO InventoryControl(Reference, Stock, DateTime) VALUES(?,?,?)"
             cur = self.conn.cursor()
             cur.execute(sql, project.get_data())
             self.conn.commit()
