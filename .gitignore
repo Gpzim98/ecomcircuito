@@ -8,3 +8,4 @@ processed_files
 db.db
 *.db-journal
 local_settings.py
+venv_new
